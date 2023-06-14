@@ -7,6 +7,16 @@ export default function Home() {
     e.preventDefault();
     const email = emailRef.current.value;
     const feedback = feedbackRef.current.value;
+    const reqBody = { email: email, text: feedback };
+    fetch('/api/feedback', {
+      method: 'POST',
+      body: JSON.stringify(reqBody),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => console.log('data', data));
   };
   return (
     <>
