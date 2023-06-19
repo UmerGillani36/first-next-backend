@@ -1,12 +1,27 @@
+import { useState } from 'react';
 import { getPath, readData } from '../api/feedback';
 
 const Feedback = (props) => {
+  const [details, setDetails] = useState();
+  const detailsHandler = (id) => {
+    fetch(`/api/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setDetails(data.feedback);
+      });
+  };
   return (
-    <ul>
-      {props.feedback.map((val) => (
-        <li key={val.id}>{val.text}</li>
-      ))}
-    </ul>
+    <>
+      {details && <p>{details.email}</p>}
+      <ul>
+        {props.feedback.map((val) => (
+          <li key={val.id}>
+            {val.text}
+            <button onClick={() => detailsHandler(val.id)}>Details</button>
+          </li>
+        ))}
+      </ul>
+    </>
   );
 };
 
